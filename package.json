@@ -1,0 +1,28 @@
+{
+  "name": "learning_dashboard_backend",
+  "version": "1.0.0",
+  "description": "learning dashboard app for students",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./index.js",
+    "start": "node ./index.js"
+  },
+  "keywords": [
+    "learning",
+    "dashboard",
+    "roadmap"
+  ],
+  "author": "yogitheboss",
+  "license": "ISC",
+  "dependencies": {
+    "@sentry/node": "^8.28.0",
+    "@sentry/profiling-node": "^8.28.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-oauth2-jwt-bearer": "^1.6.0",
+    "nodemon": "^3.1.4"
+  }
+}
