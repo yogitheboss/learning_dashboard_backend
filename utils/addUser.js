@@ -11,7 +11,7 @@ export const addUser = async (name, email, nickname, picture) => {
         email,
         userName: nickname,
         picture,
-        role: "user",
+        role: "",
       };
       const createdUser = await UserModel.create(newUser);
       return createdUser;

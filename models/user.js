@@ -22,11 +22,12 @@ const userSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      required: true,
+      enum: ["student", "instructor",""],  // Define role as an enum
     },
   },
   {
     timestamps: true,
   }
 );
+
 export const UserModel = mongoose.model("user", userSchema);

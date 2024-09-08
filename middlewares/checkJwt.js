@@ -19,13 +19,15 @@ export const attachUser = async (req, res, next) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    req.user = userInfo.data;
+  
     await addUser(
       userInfo.data.name,
       userInfo.data.email,
       userInfo.data.nickname,
       userInfo.data.picture
     );
+    const user = await UserModel.findOne({ email: userInfo.data.email });
+    req.user =  user;
     next();
   } catch (error) {
     next(error);
