@@ -2,6 +2,7 @@ import axios from "axios";
 import { auth } from "express-oauth2-jwt-bearer";
 import { addUser } from "../utils/addUser.js";
 import dotenv from "dotenv";
+import { UserModel } from "../models/user.js";
 dotenv.config();
 const domain = process.env.AUTH0_DOMAIN;
 const aud = process.env.AUTH0_AUDIENCE;

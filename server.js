@@ -54,8 +54,8 @@ app.get("/", (req, res) => {
 // Apply authentication middleware and then API routes
 app.use("/api", checkJwt, attachUser,apiRouter);
 
-app.use(errorHandler);
-app.use(notFoundHandler);
+// app.use(errorHandler);
+// app.use(notFoundHandler);
 
 
 export default server;
