@@ -195,3 +195,23 @@ export const unenrollCourse = async (req, res) => {
     res.status(500).json({ message: error.message || "Server error." });
   }
 }
+
+export const getCourse = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const course = await CourseModel.findById(id).populate(
+      "createdBy",
+      "name email"
+    ).populate("enrolledStudents", "name email");
+
+    if (!course) {
+      return res.status(404).json({ message: "Course not found." });
+    }
+
+    res.status(200).json({ course });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: error.message || "Server error." });
+  }
+}

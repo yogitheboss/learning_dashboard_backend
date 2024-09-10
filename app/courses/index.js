@@ -6,6 +6,7 @@ import {
   getUserCourses,
   enrollCourse,
   unenrollCourse,
+  getCourse,
 } from "./controller.js";
 
 // Define Express router
@@ -15,5 +16,6 @@ router.get("/user/:id", getUserCourses);
 router.post("/enroll/:id", enrollCourse);
 router.post("/unenroll/:id", unenrollCourse);
 router.get("/enrolled/:id", getUserEnrolledCourses);
+router.get("/:id", getCourse);
 router.get("/", getCourses);
 export default router;
