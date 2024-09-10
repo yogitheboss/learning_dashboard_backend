@@ -1,7 +1,7 @@
-import axios from 'axios';
-import { auth } from 'express-oauth2-jwt-bearer';
-import dotenv from 'dotenv';
-import { UserModel } from '../models/user.js';
+import axios from "axios";
+import { auth } from "express-oauth2-jwt-bearer";
+import dotenv from "dotenv";
+import { UserModel } from "../models/user.js";
 
 dotenv.config();
 
@@ -11,18 +11,12 @@ const aud = process.env.AUTH0_AUDIENCE;
 export const checkJwt = auth({
   audience: aud,
   issuerBaseURL: `https://${domain}/`,
-  tokenSigningAlg: 'RS256',
+  tokenSigningAlg: "RS256",
 });
 
 export const attachUser = async (req, res, next) => {
   try {
-    const accessToken = req.headers.authorization.split(' ')[1];
-
-    // Check if user data is in the session
-    if (req.session.user) {
-      req.user = req.session.user;
-      return next();
-    }
+    const accessToken = req.headers.authorization.split(" ")[1];
 
     // Fetch user data from Auth0 if not in session
     const userInfo = await axios.get(`https://${domain}/userinfo`, {
@@ -32,15 +26,21 @@ export const attachUser = async (req, res, next) => {
     });
 
     const user = await UserModel.findOne({ email: userInfo.data.email });
+    if(!user) {
+      console.log("user", userInfo.data);
+      const newUser = new UserModel({
+        email: userInfo.data.email,
+        name: userInfo.data.name,
+        userName: userInfo.data.nickname,
+        picture: userInfo.data.picture,
+        role: "",
+      });
 
-    if (user) {
-      // Save user data in session
-      req.session.user = user;
-      req.user = user;
-    } else {
-      // Handle the case where user is not found in the database
-      req.session.user = null;
+      await newUser.save();
+      req.user = newUser;
+      return next();
     }
+    req.user = user;
 
     next();
   } catch (error) {
