@@ -31,10 +31,16 @@ const courseSchema = new mongoose.Schema(
       type: Date, // Date when the CSV was uploaded
       default: Date.now,
     },
+    enrolledStudents: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user", // Reference to the User model (student)
+      },
+    ],
   },
   {
     timestamps: true, // Adds createdAt and updatedAt fields
   }
 );
 
-export const CourseModel = mongoose.model("Course", courseSchema);
+export const CourseModel = mongoose.model("course", courseSchema);

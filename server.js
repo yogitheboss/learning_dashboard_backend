@@ -5,9 +5,8 @@ import { createServer } from "http";
 import helmet from "helmet";
 dotenv.config();
 import apiRouter from "./app/index.js";
-import { notFoundHandler } from "./middlewares/not-found.js";
-import { errorHandler } from "./middlewares/error-handler.js";
 import {attachUser, checkJwt} from "./middlewares/checkJwt.js";
+import session from "express-session";
 const app = express();
 const server = createServer(app);
 
@@ -29,6 +28,7 @@ app.use(
   })
 );
 
+
 // Apply CORS middleware before other middlewares
 app.use(
   cors({
@@ -41,6 +41,14 @@ app.use(
 
 // Parse JSON bodies
 app.use(express.json());
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false, maxAge: 24 * 60 * 60 * 1000 }, // 1 day
+  })
+);
 app.use((req, res, next) => {
   res.contentType("application/json; charset=utf-8");
   next();
