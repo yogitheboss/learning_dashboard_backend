@@ -2,6 +2,7 @@ import { UserModel } from "../../models/user.js";
 
 export const setRole = async (req, res) => {
   const { role } = req.body;
+  console.log(req.body)
   try {
     console.log(req.user,role)
     const user = await UserModel.findOne({ email: req.user.email });
